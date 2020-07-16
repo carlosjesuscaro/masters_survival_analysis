@@ -4,7 +4,8 @@
 #Createdon:2020-07-12
 
 library(tidyverse)
-d_raw<-read.csv('covid19.csv', col_types=cols(id='c',
+
+d_raw <- read.csv('covid19.csv', col_types=cols(id='c',
                                case_in='c',
                                age='d',
                                if_onset_approximated='l',
