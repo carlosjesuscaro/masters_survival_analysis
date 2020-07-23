@@ -51,6 +51,8 @@ curve(f, from = -4, to = 4)
 ## Maximum partial-Likelihood estimation
 fit.ML <- maxLik(pLogLik, start = c(beta = 0))
 summary(fit.ML)
+# The p-value is 0.698 which means we accept the null hypothesis:
+# there isnt significant difference among the groups
 
 # With the `coxph` function:
 fit.cph <- coxph(Surv(time, failure) ~ x, data = dat)
@@ -63,6 +65,9 @@ data.frame(LRT = LRT,
            pvalue = pchisq(LRT, df = 1, lower.tail = FALSE))
 
 # The Wald test is already in the `maxLik` summary output.
+
+######################################################################################
+######################################################################################
 
 # A manually worked out, simple example: one continuous covariate
 
@@ -80,6 +85,9 @@ plot(pred, col = 1:3)
 # We might express age in decades:
 dat <- mutate(dat, age_dec = age / 10)
 summary(coxph(Surv(time, event) ~ age_dec, data = dat))
+
+######################################################################################
+######################################################################################
 
 # Case study: the pharmacoSmoking dataset
 
