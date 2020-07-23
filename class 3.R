@@ -80,7 +80,7 @@ summary(fit)
 
 pred <- survfit(fit, newdata = data.frame(age = c(20, 40, 60)))
 pred
-plot(pred, col = 1:3)
+plot(pred, col = 1:3)1
 
 # We might express age in decades:
 dat <- mutate(dat, age_dec = age / 10)
@@ -109,11 +109,31 @@ dat <- mutate(dat, employment = relevel(employment, ref = "pt"))
 fit <- coxph(Surv(ttr, relapse) ~ grp + employment, data = dat)
 summary(fit)
 
-# Case study: pharmakoSmoking, reloaded
-d_raw <- pharmacoSmoking
+######################################################################################
+######################################################################################
 
+# Case study: pharmakoSmoking, reloaded
+# Nicotine addiction
+
+# A. Model for TTR given: TRT, age, employment, gender, race
+# - Table of estimates
+# - with commentary
+
+# B. Risk stratification: based on the model, identify subjects at high risk
+# Top 10 subjects at risk
+
+# C. Predictions
+# - Median TTR
+# - S ('6 months' covariates)
+
+# D. Compare TRT efficacy in full time vs non full time emplotyment
+
+# Loading the data
+d_raw <- pharmacoSmoking
+head(d_raw)
 table(d_raw$employment, useNA = "always")
 
+# Data preparation
 dat <-
   mutate(d_raw,
     employment = ifelse(employment == "ft", "ft", "other"),
