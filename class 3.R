@@ -126,7 +126,7 @@ summary(fit)
 # - Median TTR
 # - S ('6 months' covariates)
 
-# D. Compare TRT efficacy in full time vs non full time emplotyment
+# D. Compare TTR efficacy in full time vs non full time emplotyment
 
 # Loading the data
 d_raw <- pharmacoSmoking
@@ -147,33 +147,73 @@ table(dat$race)
 ## A. Model fit
 fit <- coxph(Surv(ttr, relapse) ~ grp + age + gender + employment + race, data = dat)
 summary(fit)
+# this model is comparing against patch only
 
+# Based on the outcome:
+# the most significant variables are: grpcombination, age and employment
+# For example, a person not working full time is 2x more likely to relapse than a
+# person working full time
+
+# Before exporting the outcome of summary(fit), we can use the following command
+# for better formating:
 broom::tidy(fit) %>%
   write_csv("coefficients_table.csv")
 
 ## B. Data segmentation
+# This is the creation of a new ('fiction') data set amnd it will be used for the
+# prediction based on the model
 d_new <- select(dat, -ttr, -relapse)
 
+# Running the model from Point A with the 'new' data and creating a new columm called
+# risk score
 d_segmented <-
   d_new %>%
   mutate(risk_score = predict(fit, newdata = d_new, type = "lp"))
 head(d_segmented)
 
+# Sorting the data based on the top 10 with the highest risk
 d_segmented %>%
   arrange(desc(risk_score)) %>%
   head(10)
 
 ## C. Predicting median ttr and Surv(6 months | covariates)
+# Getting only one sample
 d0 <- d_new[1,]
 p_S <- survfit(fit, newdata = d0)
 summary(p_S)
 
 plot(p_S)
+p_S
+# The TTR (time to relapse) is 21 days
 
+summary(p_S, time=10)
+# 65% chances to survive 10 days
+summary(p_S, time=180)
+# 15.4% chances to survive 180 days
+
+# Making it as a function
 make_individual_prediction <- function(grp, age, gender, employment, race) {
   ## LEFT AS AN EXERCISE
   tibble(median_ttr = ..., surv_6_months = ...)
 }
+
+# Homework - D
+library(tidyverse)
+data_ft <- filter(dat, employment == 'ft')
+data_ot <- filter(dat, employment == 'other')
+model_ft = coxph(Surv(ttr, relapse) ~ grp + age + gender + race, data = data_ft)
+summary(model_ft)
+model_ot = coxph(Surv(ttr, relapse) ~ grp + age + gender + race, data = data_ot)
+summary(model_ot)
+
+#p_ft <- survfit(model_emp, newdata = data_ft)
+#p_ft
+#p_ot <- survfit(model_emp, newdata = data_ot)
+#p_ot
+
+
+######################################################################################
+######################################################################################
 
 # Case study: the lung cancer dataset
 
