@@ -12,6 +12,7 @@ d
 
 counts <- matrix(c(23, 27, 103, 94), nrow = 2, ncol = 2)
 fisher.test(counts)
+# The fisher test is to check if there are non-random associations between 2 variables
 
 get_M <- function(di) {
   deaths_f <- filter(di, gender == "f")$deaths
