@@ -20,7 +20,7 @@ dat <- data.frame(ratID = paste0("rat", 1:5),
 sum(dat$failure)
 
 # For convenience, rename 'group' to 'x':
-dat <- rename(dat, x = group)
+ dat <- rename(dat, x = group)
 dat
 
 # We also define an auxiliary data.frame containing events only:
@@ -80,7 +80,7 @@ summary(fit)
 
 pred <- survfit(fit, newdata = data.frame(age = c(20, 40, 60)))
 pred
-plot(pred, col = 1:3)1
+plot(pred, col = 1:3)
 
 # We might express age in decades:
 dat <- mutate(dat, age_dec = age / 10)

@@ -1,0 +1,13 @@
+date,student,country,gender,cases,deaths,comment
+4/2/2020,test,test,m,100,3,
+4/2/2020,test,test,f,100,6,
+4/2/2020,Khwansiri,Thailand,m,,10,
+4/2/2020,Khwansiri,Thailand,f,,2,
+4/2/2020,Fabrice,France,m,,2143,
+4/2/2020,Fabrice,France,f,,1361,
+4/2/2020,Antoine,France,f,9738,1537,
+4/2/2020,Antoine,France,m,14568,2472,
+4/2/2020,Didier,France,f,66487,8237,
+4/2/2020,Didier,France,m,29189,12252,suspicious
+4/2/2020,Ling,Taiwan,f,18,0,
+4/2/2020,Ling,Taiwan,m,16,1,
