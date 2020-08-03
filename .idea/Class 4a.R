@@ -150,10 +150,16 @@ make_individual_prediction <- function(grp, age, gender, employment, race) {
   tibble(median_ttr = ..., surv_6_months = ...)
 }
 
-
 ## D. Difference in efficacy between FT and NFT workers
+fit_int <- coxph(Surv(ttr, relapse) ~ grp + employment, data = dat)
+summary(fit_int)
+# There could be an additive effect of employment over the treatment
+
+# That's why we can check the additive effect by using this formula:
 fit_int <- coxph(Surv(ttr, relapse) ~ grp + employment + grp:employment, data = dat)
 summary(fit_int)
+# Based on the outcome, the p-value is 13%, we cannot reject H0
+
 
 # Case study: the lung cancer dataset
 
