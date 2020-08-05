@@ -17,14 +17,22 @@ M0 <- coxph(Surv(ttr, relapse) ~ 1, data = dat)
 MA <- coxph(Surv(ttr, relapse) ~ ageGroup4, data = dat)
 MB <- coxph(Surv(ttr, relapse) ~ employment, data = dat)
 MC <- coxph(Surv(ttr, relapse) ~ ageGroup4 + employment, data = dat)
-
 summary(MC)
+anova(MA, MC)
+# The result gives us a p-value of 0.10 so we dont reject the
+# H0  meaning that coefficients associated with employment
+# are not significantly different from 0
+# Between MA and MC, there isnt much of a difference so we can just
+# use MA
 
 d <- mutate(dat, employment = ifelse(employment == "ft", "ft", "other"))
 M_additive <- coxph(Surv(ttr, relapse) ~ grp + employment, data = d)
 M_int <- coxph(Surv(ttr, relapse) ~ grp * employment, data = d)
+# grp * employment = grp + employment + grp:employment
 summary(M_int)
 anova(M_additive, M_int)
+
+# LRT test performs better than Wald test
 
 d$race <- relevel(d$race, ref = "other")
 fit <- coxph(Surv(ttr, relapse) ~ grp + employment + gender + race + age, data = d)
