@@ -36,6 +36,10 @@ summary(M_int)
 # the current model with the model with no coefficients (all coefficents
 # equal tp 0). The outcome of this examples shows a p-value of
 # 5% which means that at least one coefficient must be different from 0
+
+# The Wald test is suceptible to the reference point which is arbitrary
+# Instead, the LRT test is not suceptible to the reference point
+
 anova(M_additive, M_int)
 
 # LRT test performs better than Wald test
@@ -52,6 +56,7 @@ anova(MA, MC)
 ## Comparing non-nested models: AIC
 fits <- list(MA = MA, MB = MB, MC = MC)
 sapply(fits, AIC)
+# sapply allows us to apply the same function to a list
 
 sapply(list(ageOnly = MA, emplOnly = MB, full = MC), AIC)
 
@@ -74,11 +79,9 @@ summary(MAIC)
 
 library(survivalROC)
 data(mayo)
-
 head(mayo)
 
 plot(survfit(Surv(time / 365.25, censor) ~ 1, data = mayo))
-
 ROC.4 <- survivalROC(Stime = mayo$time,
                      status = mayo$censor,
                      marker = mayo$mayoscore4,
