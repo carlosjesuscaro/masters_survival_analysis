@@ -20,7 +20,7 @@ dat <- data.frame(ratID = paste0("rat", 1:5),
 sum(dat$failure)
 
 # For convenience, rename 'group' to 'x':
- dat <- rename(dat, x = group)
+dat <- rename(dat, x = group)
 dat
 
 # We also define an auxiliary data.frame containing events only:

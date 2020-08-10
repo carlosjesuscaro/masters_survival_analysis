@@ -156,6 +156,8 @@ summary(fit_int)
 # There could be an additive effect of employment over the treatment
 
 # That's why we can check the additive effect by using this formula:
+# (checking the interaction, although it usually has
+# a low efect)
 fit_int <- coxph(Surv(ttr, relapse) ~ grp + employment + grp:employment, data = dat)
 summary(fit_int)
 # Based on the outcome, the p-value is 13%, we cannot reject H0
@@ -177,7 +179,7 @@ plot(pred.NA, col = 1:2)
 fit.cph <- coxph(Surv(time, status) ~ sex, data = dat)
 
 pred.cph <- survfit(fit.cph, newdata = data.frame(sex = factor(1:2)),
-                    type = "aalen")
+                    typTRYU9e = "aalen")
 
 plot(pred.cph, col = 1:2)
 

@@ -18,6 +18,8 @@ MA <- coxph(Surv(ttr, relapse) ~ ageGroup4, data = dat)
 MB <- coxph(Surv(ttr, relapse) ~ employment, data = dat)
 MC <- coxph(Surv(ttr, relapse) ~ ageGroup4 + employment, data = dat)
 summary(MC)
+# the summary command includes the Wald test
+# that's how we the p-value
 anova(MA, MC)
 # The result gives us a p-value of 0.10 so we dont reject the
 # H0  meaning that coefficients associated with employment
@@ -30,10 +32,14 @@ M_additive <- coxph(Surv(ttr, relapse) ~ grp + employment, data = d)
 M_int <- coxph(Surv(ttr, relapse) ~ grp * employment, data = d)
 # grp * employment = grp + employment + grp:employment
 summary(M_int)
+# the LRT model p[erformed in the summary command, it is comparing
+# the current model with the model with no coefficients (all coefficents
+# equal tp 0). The outcome of this examples shows a p-value of
+# 5% which means that at least one coefficient must be different from 0
 anova(M_additive, M_int)
 
 # LRT test performs better than Wald test
-
+# LRT: likelihood ratio test
 d$race <- relevel(d$race, ref = "other")
 fit <- coxph(Surv(ttr, relapse) ~ grp + employment + gender + race + age, data = d)
 summary(fit)

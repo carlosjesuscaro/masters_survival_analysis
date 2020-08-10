@@ -3,7 +3,7 @@
 # Created by: carloscaro
 # Created on: 2020-07-16
 
-  # One sample
+# One sample
 library(survival)
 library(tidyverse)
 
@@ -88,6 +88,9 @@ dat <- data.frame(ratID = paste0("rat", 1:5),
 ## The logrank test
 fit.logrank <- survdiff(Surv(time, status) ~ group, data = dat)
 fit.logrank
+# H0 = there is no significant difference
+# p-value = 0.7
+# Thus, there i not significant difference betweemn the 2 groups
 
 ###########################################################################################
 ###########################################################################################
@@ -149,6 +152,8 @@ fit.KM
 
 ### The logrank test
 survdiff(Surv(PFS) ~ stage, data = dat)
+# p-value = 10%
+# There isnt't a significant difference between the 2 stages of cancer (based on the current data set)
 
 # What's the estimated probability of not experiencing a cancer progression for (at least) 1 year?
 summary(fit.KM, time = 12)
@@ -158,7 +163,7 @@ summary(fit.KM, time = 12)
 # within one year.
 
 # Can you repeat the analysis above, this time for OS?
-
+survdiff(Surv(OS) ~ stage, data = dat)
 
 ###########################################################################################
 ###########################################################################################
@@ -179,16 +184,15 @@ plot(fit.KM, col=1:2)
 # white line is the combination therapy
 # red line is the patch only therapy
 
-
 # Question: do the 2 treatment group differ significantly in terms of survival to relapse?
 # calculating the p-value with the Logrank test
 # p-value is very small so it is very significant
 survdiff(Surv(ttr, relapse) ~ grp, data = dat)
+# yes, the treatment group differ significantly
 
 # Critique: the 2 groups have different age distribution, which might confound our results.
 # Lets investigate:
 with(dat, prop.table(table(grp, ageGroup2), 1))
-
 with(dat, mosaicplot(table(grp, ageGroup2)))
 
 ### stratified logrank test
