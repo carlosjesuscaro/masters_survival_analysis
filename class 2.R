@@ -47,7 +47,7 @@ summary(dat)
 
 # How the Progress Free Survival times data looks like (ignoring censoring info)?
 hist(dat$timeWeeks * 7 / 365.25)
-# No conclusion should be driven from this histogram, any conclusion would be incorrect
+# No conclusion should be driven from this histogram, any conclusions would be incorrect
 
 ### Check censoring coding
 with(dat, Surv(timeWeeks, delta))
@@ -97,7 +97,6 @@ fit.logrank
 
 ## Case study: the pancreatic dataset
 library(asaur)
-
 dat <- pancreatic
 head(dat)
 
@@ -144,7 +143,6 @@ ggplot(dat, aes(stage, PFS)) +
   theme_bw()
 
 # more generally, Kaplan-Meier estimates:
-
 fit.KM <- survfit(Surv(PFS) ~ stage, data = dat, conf.type = "log-log")
 plot(fit.KM, col = 1:2)
 
@@ -211,6 +209,12 @@ legend("topright", lty = 1, col = 1:6, legend = names(fit.4$strata))
 
 # The 3 'combination' curves seem all higher than the 3 'patchOnly' curves. Lets make a stratified test:
 survdiff(Surv(ttr, relapse) ~ grp + strata(employment), data = dat)
+survdiff(Surv(ttr, relapse) ~ grp + employment, data = dat)
+################################################################################
+# Notes:
+# The difference between the last 2 lines of code is that strata will be summarize the
+# information based on the element used in strata
+################################################################################
 
 
 
