@@ -96,6 +96,7 @@ library(asaur)
 dat <- pharmacoSmoking
 head(dat)
 
+
 ## Fit the Cox model
 fit <- coxph(Surv(ttr, relapse) ~ grp + age + gender + priorAttempts, data = dat)
 summary(fit)

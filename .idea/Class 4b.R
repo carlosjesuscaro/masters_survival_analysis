@@ -19,7 +19,7 @@ MB <- coxph(Surv(ttr, relapse) ~ employment, data = dat)
 MC <- coxph(Surv(ttr, relapse) ~ ageGroup4 + employment, data = dat)
 summary(MC)
 # the summary command includes the Wald test
-# that's how we the p-value
+# that's how we get the p-value
 anova(MA, MC)
 # The result gives us a p-value of 0.10 so we dont reject the
 # H0  meaning that coefficients associated with employment
@@ -32,7 +32,7 @@ M_additive <- coxph(Surv(ttr, relapse) ~ grp + employment, data = d)
 M_int <- coxph(Surv(ttr, relapse) ~ grp * employment, data = d)
 # grp * employment = grp + employment + grp:employment
 summary(M_int)
-# the LRT model p[erformed in the summary command, it is comparing
+# the LRT model performed in the summary command, it is comparing
 # the current model with the model with no coefficients (all coefficents
 # equal tp 0). The outcome of this examples shows a p-value of
 # 5% which means that at least one coefficient must be different from 0
@@ -57,6 +57,7 @@ anova(MA, MC)
 fits <- list(MA = MA, MB = MB, MC = MC)
 sapply(fits, AIC)
 # sapply allows us to apply the same function to a list
+# AIC: the lower the better
 
 sapply(list(ageOnly = MA, emplOnly = MB, full = MC), AIC)
 
@@ -102,12 +103,6 @@ for(nm in names(dfl)) {
 }
 dat <- do.call(rbind, dfl)
 
-dat
-
-ggplot(dat, aes(FP, TP, color = marker)) +
-  geom_line() +
-  theme_bw(base_size = 9)
-
 
 cutoff <- min(filter(dat, marker == "mayo5", FP <= 0.1)$cutoff)
 
@@ -132,7 +127,6 @@ dat <- pharmacoSmoking
 fit <- coxph(Surv(ttr, relapse) ~ grp + age + employment, data = dat)
 dat$residual <- residuals(fit, type = "martingale")
 
-
 par(mfrow = c(1, 3), mar = c(4.2, 2, 2, 2))
 with(dat, {
 
@@ -145,6 +139,7 @@ with(dat, {
 
 })
 
+# Case deletion residuals
 dfbetas <- residuals(fit, type = 'dfbetas')
 dat$dfbetas <- sqrt(rowSums(dfbetas^2))
 
@@ -177,14 +172,16 @@ dat
 
 fit <- coxph(PFS ~ stage, data = dat)
 summary(fit)
+# Based on the results, there isnt much difference in between the different stages
 
 fit.KM <- survfit(PFS ~ stage, data = dat)
 plot(fit.KM, fun= "cloglog", col = 1:2)
+# The ratio is not constant
+plot(fit.KM, col = 1:2)
 
 fit.KM <- survfit(Surv(ttr, relapse) ~ grp, data = pharmacoSmoking)
-
 plot(fit.KM, fun = "cloglog", col = 1:2)
-
+# The ratio is almost constant
 
 ### Schoenfeld residuals
 fit <- coxph(PFS ~ stage, data = dat)
