@@ -1,6 +1,4 @@
----
-  title: "Penalized Cox Regression"
----
+# title: "Penalized Cox Regression"
 
   # Simulated data
 
